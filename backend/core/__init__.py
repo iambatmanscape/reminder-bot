@@ -1,3 +1,3 @@
-from .reminder_controller import save_or_update_reminder,clear_reminder
+from .reminder_controller import save_or_update_reminder,clear_reminder,get_reminder_by_datetime,get_reminders
 
-__all__ = [save_or_update_reminder,clear_reminder]
+__all__ = [save_or_update_reminder,clear_reminder,get_reminders,get_reminder_by_datetime]

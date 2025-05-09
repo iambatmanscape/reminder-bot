@@ -7,6 +7,8 @@ class ReminderUpdateSchema(BaseModel):
     success:bool
     task_id:str
 
+class TimeModel(BaseModel):
+    time:datetime
 
 class ReminderSchema(BaseModel):
     reminder:List[str] = Field(default_factory=list)

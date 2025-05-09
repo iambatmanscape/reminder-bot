@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import List,Optional
 from models import Reminder
+from uuid import uuid4
+import logging
 
 
 async def save_or_update_reminder(
@@ -25,34 +27,85 @@ async def save_or_update_reminder(
         }
     """
     try:
-        if old_task_id:
-            # Update existing reminder
-            task = await Reminder.find(
-                Reminder.user == user,
-                Reminder.task_id == old_task_id
-            ).first_or_none()
+        
+        task = await Reminder.find(
+            Reminder.user == user,
+            Reminder.task_id == old_task_id
+        ).first_or_none()
 
-            if task is None:
-                raise Exception("Reminder not found.")
-
+        if task:
             task.reminder.extend(reminders)
             await task.save()
             await task.sync()
             return {"success": True, "task_id": task.task_id}
 
-        else:
-            # Create new reminder
-            if not time:
-                raise ValueError("Time is required to create a new reminder.")
+        # Create new reminder
+        if not time:
+            raise ValueError("Time is required to create a new reminder.")
 
-            task_id = str(hash(time))
-            remind = Reminder(reminder=reminders, time=time, task_id=task_id, user=user)
-            await remind.save()
-            await remind.sync()
-            return {"success": True, "task_id": task_id}
+        id = str(uuid4())
+        task_id = ''.join(id.split('-'))
+        remind = Reminder(reminder=reminders, time=time, task_id=task_id, user=user)
+        await remind.save()
+        await remind.sync()
+        return {"success": True, "task_id": task_id}
 
     except Exception as e:
+        logging.error(f"Error: {e}")
         raise Exception(f"Reminder save/update error: {e}")
+
+
+# Get all reminders from a user
+async def get_reminders(user: str):
+    """
+    Retrieve all reminders for a given user.
+
+    Args:
+        user (str): The unique identifier of the user whose reminders are to be retrieved.
+
+    Returns:
+        List[Reminder]: A list of Reminder objects associated with the user.
+
+    Raises:
+        Exception: If there is an error during database retrieval.
+    """
+    try:
+        tasks = await Reminder.find(
+            Reminder.user == user
+        ).to_list()
+        
+        return tasks
+    
+    except Exception as e:
+        logging.error(f"Error while getting reminders: {e}")
+        raise Exception(f"Reminder listing error: {e}")
+
+
+async def get_reminder_by_datetime(user: str, time: datetime):
+    """
+    Retrieve reminders for a given user scheduled at a specific datetime.
+
+    Args:
+        user (str): The unique identifier of the user.
+        time (datetime): The exact datetime to filter reminders by.
+
+    Returns:
+        List[Reminder]: A list of Reminder objects matching the given datetime for the user.
+
+    Raises:
+        Exception: If there is an error during database retrieval.
+    """
+    try:
+        tasks = await Reminder.find(
+            Reminder.user == user,
+            Reminder.time == time
+        ).to_list()
+
+        return tasks
+    
+    except Exception as e:
+        logging.error(f"Error while getting reminder: {e}")
+        raise Exception(f"Reminder error: {e}")
 
 
 # Delete a reminder

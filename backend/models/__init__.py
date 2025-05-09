@@ -1,4 +1,4 @@
-from .reminder import Reminder,ReminderUpdateSchema,ReminderSchema
+from .reminder import Reminder,ReminderUpdateSchema,ReminderSchema,TimeModel
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
@@ -7,7 +7,6 @@ from os import getenv
 import logging
 
 async def init_db():
-    logging.info(getenv('MDB_URI_STRING'))
     client = AsyncIOMotorClient(
         getenv('MDB_URI_STRING')
     )
@@ -15,4 +14,4 @@ async def init_db():
     db_name = client['reminders']
     await init_beanie(database=db_name, document_models=[Reminder])
 
-__all__ = [Reminder,ReminderUpdateSchema,ReminderSchema,init_db]
+__all__ = [Reminder,ReminderUpdateSchema,ReminderSchema,TimeModel,init_db]
