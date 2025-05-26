@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 router = APIRouter()
 
 @router.post('/{user}/reminders/add',status_code=201)
-async def add_or_update_reminder(reminders:List[str]=Body(...),user:str=Path(...),time:datetime=Body(...),task_id:str=Body(...,default_factory=str))->Dict[str,str]:
+async def add_or_update_reminder(reminders:str=Body(...),user:str=Path(...),time:datetime=Body(...),task_id:str=Body(...,default_factory=str))->Dict[str,str]:
     try:
         response = await save_or_update_reminder(reminders,user,time,old_task_id=task_id)
         status = response.get('success',None)

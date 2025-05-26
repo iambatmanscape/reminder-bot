@@ -11,13 +11,13 @@ class TimeModel(BaseModel):
     time:datetime
 
 class ReminderSchema(BaseModel):
-    reminder:List[str] = Field(default_factory=list)
+    reminder:str
     time:datetime
     task_id:Annotated[str,Indexed(unique=True)]
     user:str
 
 class Reminder(Document):
-    reminder:List[str] = Field(default_factory=list)
+    reminder:str
     time:datetime
     task_id:Annotated[str,Indexed(unique=True)]
     user:str

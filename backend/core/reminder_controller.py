@@ -6,7 +6,7 @@ import logging
 
 
 async def save_or_update_reminder(
-    reminders: List[str],
+    reminders: str,
     user: str,
     time: Optional[datetime] = None,
     old_task_id: Optional[str] = None,
@@ -15,7 +15,7 @@ async def save_or_update_reminder(
     Creates a new reminder or updates an existing one.
 
     Args:
-        reminders (List[str]): List of reminders to add.
+        reminders (str): Reminders to add.
         user (str): User ID.
         time (Optional[datetime]): Time for the new reminder. Required if creating.
         old_task_id (Optional[str]): Task ID of an existing reminder to update.

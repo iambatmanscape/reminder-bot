@@ -1,13 +1,22 @@
 from fastapi import FastAPI
 from api.routes import router as api_router
 from models import init_db
+from core import start_consumer
+from contextlib import asynccontextmanager
 import uvicorn
 import asyncio
 import logging
 logging.basicConfig(level=logging.INFO)
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifecycle(app:FastAPI):
+    connection = await start_consumer()
+    yield
+    await connection.close()
+    logging.info(f"Shutting down!")
+
+app = FastAPI(lifespan=lifecycle)
 
 @app.get("/")
 def read_root():
