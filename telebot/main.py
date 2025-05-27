@@ -7,7 +7,7 @@ from lib import start,echo,set_reminder
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.DEBUG
+    level=logging.INFO
 )
 
 

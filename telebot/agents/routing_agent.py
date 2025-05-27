@@ -91,7 +91,7 @@ Ensure the output JSON is valid and follows this structure exactly.
 template = ChatPromptTemplate.from_messages([
     ('system',reminder_prompt),
     MessagesPlaceholder(variable_name="history"),
-    ('human','{input}')
+    ('human','{input}. Current datetime is {datetime_str}')
 ])
 
 
