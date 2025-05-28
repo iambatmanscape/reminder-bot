@@ -49,5 +49,4 @@ A Telegram-based chatbot that helps users **set goals**, **schedule reminders**,
 ✅ That’s it! Your Telegram chatbot is now running and ready to use.
 
 ### Demo
-<iframe src="https://drive.google.com/file/d/1vU6IBA_HyyJB6-UrV8JPhjBYWORLb8Ah/preview?usp=drivesdk" 
- width="640" height="480" allow="autoplay"></iframe>
+[Demo]("https://drive.google.com/file/d/1vU6IBA_HyyJB6-UrV8JPhjBYWORLb8Ah/view?usp=drivesdk")
