@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from api.routes import router as api_router
 from models import init_db
-from core import start_consumer
+from .utils import start_consumer
 from contextlib import asynccontextmanager
 import uvicorn
 import asyncio

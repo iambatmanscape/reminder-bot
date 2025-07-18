@@ -1,4 +1,4 @@
-from core import save_or_update_reminder,clear_reminder,get_reminder_by_datetime,get_reminders
+from utils import save_or_update_reminder,clear_reminder,get_reminder_by_datetime,get_reminders
 from models import ReminderSchema,TimeModel
 from fastapi import APIRouter,Body,Path,HTTPException
 from datetime import datetime

@@ -1,4 +1,5 @@
-from .reminder_controller import save_or_update_reminder,clear_reminder,get_reminder_by_datetime,get_reminders
-from .tele_consumer import start_consumer
+from .config import Settings
 
-__all__ = [save_or_update_reminder,clear_reminder,get_reminders,get_reminder_by_datetime,start_consumer]
+settings = Settings()
+
+__all__ = [settings]

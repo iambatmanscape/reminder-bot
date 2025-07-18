@@ -1,5 +1,5 @@
 from models import init_db
-from core import save_or_update_reminder,clear_reminder
+from utils import save_or_update_reminder,clear_reminder
 import asyncio
 from datetime import datetime, timedelta
 import logging
