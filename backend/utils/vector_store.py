@@ -16,6 +16,7 @@ def create_and_return_vector_store(
     collection_name: str = 'default',
     embedding_model=None,
     vector_size: int = 384,
+    distance=Distance.COSINE,
     recreate: bool = False
 ):
     """

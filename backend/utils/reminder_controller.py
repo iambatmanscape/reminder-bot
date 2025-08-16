@@ -29,8 +29,7 @@ async def save_or_update_reminder(
     try:
         
         task = await Reminder.find(
-            Reminder.user == user,
-            Reminder.task_id == old_task_id
+            {"user": user, "task_id": old_task_id}
         ).first_or_none()
 
         if task:
@@ -122,8 +121,7 @@ async def clear_reminder(user: str, task_id: str):
     """
     try:
         task = await Reminder.find_one(
-            Reminder.user == user,
-            Reminder.task_id == task_id
+            {"user": user, "task_id": task_id}
         )
         if task:
             await task.delete()

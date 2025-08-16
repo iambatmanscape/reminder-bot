@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from api.routes import router as api_router
 from models import init_db
-from .utils import start_consumer
+from utils import start_consumer
 from contextlib import asynccontextmanager
 import uvicorn
 import asyncio
@@ -10,13 +10,18 @@ logging.basicConfig(level=logging.INFO)
 
 
 @asynccontextmanager
-async def lifecycle(app:FastAPI):
+async def lifespan(app: FastAPI):
+    # ✅ init DB first
+    await init_db()
     connection = await start_consumer()
-    yield
-    await connection.close()
-    logging.info(f"Shutting down!")
+    logging.info("RabbitMQ consumer started")
 
-app = FastAPI(lifespan=lifecycle)
+    yield
+
+    await connection.close()
+    logging.info("RabbitMQ consumer stopped")
+
+app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 def read_root():
@@ -24,12 +29,11 @@ def read_root():
 
 app.include_router(api_router, prefix="/api")
 
-async def main():
-    await init_db()
-    config = uvicorn.Config("app:app", host="127.0.0.1", port=5000)
+def main():
+    config = uvicorn.Config("app:app", host="127.0.0.1", port=5000, reload=True)
     server = uvicorn.Server(config)
-    await server.serve()
+    asyncio.run(server.serve())
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
