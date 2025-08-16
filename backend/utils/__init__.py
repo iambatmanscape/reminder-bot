@@ -1,4 +1,3 @@
 from .reminder_controller import save_or_update_reminder,clear_reminder,get_reminder_by_datetime,get_reminders
-from .tele_consumer import start_consumer
 
-__all__ = [save_or_update_reminder,clear_reminder,get_reminders,get_reminder_by_datetime,start_consumer]
+__all__ = [save_or_update_reminder,clear_reminder,get_reminders,get_reminder_by_datetime]

@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from api.routes import router as api_router
 from models import init_db
-from utils import start_consumer
 from contextlib import asynccontextmanager
 import uvicorn
 import asyncio
@@ -13,13 +12,9 @@ logging.basicConfig(level=logging.INFO)
 async def lifespan(app: FastAPI):
     # ✅ init DB first
     await init_db()
-    connection = await start_consumer()
-    logging.info("RabbitMQ consumer started")
-
+    logging.info("Application started!")
     yield
-
-    await connection.close()
-    logging.info("RabbitMQ consumer stopped")
+    logging.info("Application stopped!")
 
 app = FastAPI(lifespan=lifespan)
 
