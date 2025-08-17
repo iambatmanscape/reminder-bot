@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from api.routes import router as api_router
 from models import init_db
 from contextlib import asynccontextmanager
+from core import scheduler
 import uvicorn
 import asyncio
 import logging
@@ -12,6 +13,7 @@ logging.basicConfig(level=logging.INFO)
 async def lifespan(app: FastAPI):
     # ✅ init DB first
     await init_db()
+    scheduler.start()
     logging.info("Application started!")
     yield
     logging.info("Application stopped!")

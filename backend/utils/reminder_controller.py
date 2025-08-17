@@ -1,8 +1,14 @@
 from datetime import datetime
 from typing import List,Optional
 from models import Reminder
+from core import scheduler
+from .tele_producer import send_reminder
 from uuid import uuid4
+from dateutil import parser
 import logging
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+from os import getenv
 
 
 async def save_or_update_reminder(
@@ -45,6 +51,7 @@ async def save_or_update_reminder(
         id = str(uuid4())
         task_id = ''.join(id.split('-'))
         remind = Reminder(reminder=reminders, time=time, task_id=task_id, user=user)
+        scheduler.add_job(send_reminder, args=[user, reminders], trigger="date", run_date=time, id=task_id, jobstore=getenv('jobstore'))
         await remind.save()
         await remind.sync()
         return {"success": True, "task_id": task_id}

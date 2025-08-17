@@ -1,7 +1,9 @@
-from apscheduler.schedulers.background import BackgroundScheduler
+# schedular_config.py
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.mongodb import MongoDBJobStore
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+from apscheduler.executors.pool import ThreadPoolExecutor
+from apscheduler.executors.asyncio import AsyncIOExecutor
 from zoneinfo import ZoneInfo
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
@@ -15,8 +17,8 @@ jobstores = {
 }
 
 executors = {
-    "default": ThreadPoolExecutor(20),
-    "processpool": ProcessPoolExecutor(5),
+    "default": AsyncIOExecutor(),
+    "threadpool": ThreadPoolExecutor(10),
 }
 
 job_defaults = {
@@ -24,7 +26,7 @@ job_defaults = {
     "max_instances": 3,
 }
 
-scheduler = BackgroundScheduler(
+scheduler = AsyncIOScheduler(
     jobstores=jobstores,
     executors=executors,
     job_defaults=job_defaults,
