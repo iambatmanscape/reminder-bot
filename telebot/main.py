@@ -11,8 +11,8 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-async def on_startup(app):
-    asyncio.create_task(start_consumer())
+async def on_startup(app:ApplicationBuilder):
+    asyncio.create_task(start_consumer(app.bot))
     logging.info("RabbitMQ consumer started")
 
 def main():
