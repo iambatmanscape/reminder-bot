@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import List,Optional
-from models import Reminder
-from core import scheduler
-from .tele_producer import send_reminder
+from backend.models import Reminder
+from backend.core import scheduler
+from backend.utils.tele_producer import send_reminder
 from uuid import uuid4
 from dateutil import parser
 import logging

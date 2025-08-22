@@ -1,9 +1,10 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import aio_pika
 from pika.exceptions import ChannelError
 import json
 from typing import Dict, Any
 from os import getenv
+load_dotenv(find_dotenv())
 
 
 async def send_reminder(user_id: str, description: str) -> Dict[str, Any]:
